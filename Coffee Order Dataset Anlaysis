@@ -245,3 +245,24 @@
 
 	select * 
 	from year_value;
+
+
+/*we calculated year on year Total Sales and categorised performance based on conditions*/
+select date_format(o.order_date,'%Y') as order_date, round(sum((o.quantity*p.unit_price)),0) as total_sales_value,
+case when  round(sum((o.quantity*p.unit_price)),0) >= 13000 then 'Excellent_Performance'
+when  round(sum((o.quantity*p.unit_price)),0) <13000 and round(sum((o.quantity*p.unit_price)),0) >8000 then 'Average_Performance'
+else 'Bad_Performance' end as Performance
+from orders as o
+left join products as p
+on o.product_id = p.product_id
+group by date_format(o.order_date,'%Y');
+
+/*we calculated year on year Total Profit and categorised performance based on conditions*/
+select date_format(o.order_date,'%Y') as order_date,  round(sum((o.quantity*p.profit)),0) as total_profit_value,
+case when  round(sum((o.quantity*p.profit)),0) >= 1300 then 'Excellent_Performance'
+when   round(sum((o.quantity*p.profit)),0) <1300 and  round(sum((o.quantity*p.profit)),0) >800 then 'Average_Performance'
+else 'Bad_Performance' end as Performance
+from orders as o
+left join products as p
+on o.product_id = p.product_id
+group by date_format(o.order_date,'%Y');
